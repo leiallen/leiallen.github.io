@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="JavaScript," />
 
 
 
@@ -84,13 +84,27 @@
 
 
 
+<meta name="description" content="一、数据类型5种基本数据类型：Null/Undefined/String/Boolean/Number
+1种复杂数据类型：Object
+二、数据类型检测传送门《几种JS数据类型方式及其局限性》
+1、typeof2、instanceof/constructor3、Object.prototype.toString.call(value)三、数据类型转换JS内部提供不同数据类型的自动转换机制，在某处预">
 <meta property="og:type" content="article">
-<meta property="og:title" content="second">
+<meta property="og:title" content="捋一捋Javascript数据类型转换规则">
 <meta property="og:url" content="http://yoursite.com/2014/12/13/second/index.html">
 <meta property="og:site_name" content="Allenlei's Blog">
-<meta property="og:updated_time" content="2016-12-13T14:21:24.554Z">
+<meta property="og:description" content="一、数据类型5种基本数据类型：Null/Undefined/String/Boolean/Number
+1种复杂数据类型：Object
+二、数据类型检测传送门《几种JS数据类型方式及其局限性》
+1、typeof2、instanceof/constructor3、Object.prototype.toString.call(value)三、数据类型转换JS内部提供不同数据类型的自动转换机制，在某处预">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/909952/201612/909952-20161211223129413-1008068532.png">
+<meta property="og:updated_time" content="2016-12-15T04:41:53.850Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="second">
+<meta name="twitter:title" content="捋一捋Javascript数据类型转换规则">
+<meta name="twitter:description" content="一、数据类型5种基本数据类型：Null/Undefined/String/Boolean/Number
+1种复杂数据类型：Object
+二、数据类型检测传送门《几种JS数据类型方式及其局限性》
+1、typeof2、instanceof/constructor3、Object.prototype.toString.call(value)三、数据类型转换JS内部提供不同数据类型的自动转换机制，在某处预">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/909952/201612/909952-20161211223129413-1008068532.png">
 
 
 
@@ -124,7 +138,7 @@
 
 
 
-  <title> second | Allenlei's Blog </title>
+  <title> 捋一捋Javascript数据类型转换规则 | Allenlei's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -259,7 +273,7 @@
             
             
               
-                second
+                捋一捋Javascript数据类型转换规则
               
             
           </h1>
@@ -308,7 +322,39 @@
       
 
       
-        
+        <h1 id="一、数据类型"><a href="#一、数据类型" class="headerlink" title="一、数据类型"></a>一、数据类型</h1><p>5种基本数据类型：<code>Null</code>/<code>Undefined</code>/<code>String</code>/<code>Boolean</code>/<code>Number</code></p>
+<p>1种复杂数据类型：<code>Object</code></p>
+<h1 id="二、数据类型检测"><a href="#二、数据类型检测" class="headerlink" title="二、数据类型检测"></a>二、数据类型检测</h1><p>传送门<a href="">《几种JS数据类型方式及其局限性》</a></p>
+<h3 id="1、typeof"><a href="#1、typeof" class="headerlink" title="1、typeof"></a>1、<code>typeof</code></h3><h3 id="2、instanceof-constructor"><a href="#2、instanceof-constructor" class="headerlink" title="2、instanceof/constructor"></a>2、<code>instanceof/constructor</code></h3><h3 id="3、Object-prototype-toString-call-value"><a href="#3、Object-prototype-toString-call-value" class="headerlink" title="3、Object.prototype.toString.call(value)"></a>3、<code>Object.prototype.toString.call(value)</code></h3><h1 id="三、数据类型转换"><a href="#三、数据类型转换" class="headerlink" title="三、数据类型转换"></a>三、数据类型转换</h1><p>JS内部提供不同数据类型的自动转换机制，在某处预期为某种类型而不是某种类型时，就会自动转换为预期类型，这就是我们常说的隐式转换。</p>
+<h3 id="1、强制类型转换"><a href="#1、强制类型转换" class="headerlink" title="1、强制类型转换"></a>1、强制类型转换</h3><p>在了解隐式转换的规则前先来看看强制类型转换，强制类型转换主要是用<code>Boolean()</code>/<code>String()</code>/<code>Number()</code>将各类型的数据转换成布尔、字符串、数值型数据。</p>
+<ul>
+<li>Boolean() 函数</li>
+</ul>
+<p>当要转换的值是至少有一个字符的字符串、非 0 数字或对象时，<code>Boolean()</code> 函数将返回 <code>true</code>。如果该值是<code>空字符串、数字 0、undefined</code> 或<code>null</code>，它将返回<code>false</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var b1 = Boolean(&quot;&quot;);       //false - 空字符串</div><div class="line">var b2 = Boolean(&quot;hello&quot;);  //true - 非空字符串</div><div class="line">var b1 = Boolean(50);       //true - 非零数字</div><div class="line">var b1 = Boolean(null);     //false - null</div><div class="line">var b1 = Boolean(0);        //false - 零</div><div class="line">var b1 = Boolean(new object()); //true - 对象</div></pre></td></tr></table></figure>
+<ul>
+<li>Number() 函数</li>
+</ul>
+<p><code>Number()</code> 函数的强制类型转换与 <code>parseInt()</code> 和 <code>parseFloat()</code> 方法的处理方式相似，只是它转换的是整个值，而不是部分值。</p>
+<p><code>parseInt()</code> 和 <code>parseFloat()</code> 方法只转换第一个无效字符之前的字符串，因此 “1.2.3” 将分别被转换为 “1” 和 “1.2”。</p>
+<p>用 <code>Number()</code> 进行强制类型转换，”1.2.3” 将返回<code>NaN</code>，因为整个字符串值不能转换成数字。如果字符串值能被完整地转换，<code>Number()</code> 将判断是调用 <code>parseInt()</code> 方法还是 parseFloat() 方法。</p>
+<p><img src="http://images2015.cnblogs.com/blog/909952/201612/909952-20161211223129413-1008068532.png" alt="Number()用法"></p>
+<ul>
+<li>String() 函数</li>
+</ul>
+<p>最后一种强制类型转换方法 <code>String()</code> 是最简单的，因为它可把任何值转换成字符串。</p>
+<p>要执行这种强制类型转换，只需要调用作为参数传递进来的值的 <code>toString()</code>方法，即把 12 转换成 “12”，把<code>true</code> 转换成 <code>&quot;true&quot;</code>，把 <code>false</code> 转换成 <code>&quot;false&quot;</code>，以此类推。</p>
+<p>强制转换成字符串和调用 <code>toString()</code>方法的唯一不同之处在于，对 <code>null</code> 和 <code>undefined</code>值强制类型转换可以生成字符串而不引发错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var s1 = String(null);  //&quot;null&quot;</div><div class="line">var oNull = null;</div><div class="line">var s2 = oNull.toString();  //会引发错误</div></pre></td></tr></table></figure>
+<h3 id="2、自动类型转换"><a href="#2、自动类型转换" class="headerlink" title="2、自动类型转换"></a>2、自动类型转换</h3><p>说完了强制类型转换，再来看看自动类型转换，实际上自动类型转换是建立在强制类型转换的基础上，当预期某个位置应该是某类型（布尔、数值、字符串）的数据时，就会调用相应的强制类型转换函数，这个是自动进行的。</p>
+<p><strong>当JavaScript遇到预期为布尔值的地方（比如if语句的条件部分），就会将非布尔值的参数自动转换为布尔值。系统内部会自动调用Boolean函数。</strong></p>
+<p>因此除了以下六个值，其他都是自动转为true。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">undefined</div><div class="line">null</div><div class="line">-0</div><div class="line">0或+0</div><div class="line">NaN</div><div class="line">&apos;&apos;（空字符串</div></pre></td></tr></table></figure></p>
+<p><strong>当JavaScript遇到预期为字符串的地方，就会将非字符串的数据自动转为字符串。系统内部会自动调用String函数。</strong></p>
+<p>字符串的自动转换，主要发生在加法运算时。当一个值为字符串，另一个值为非字符串，则后者转为字符串。</p>
+<p><strong>当JavaScript遇到预期为数值的地方，就会将参数值自动转换为数值。系统内部会自动调用Number函数。</strong></p>
+<p>除了加法运算符有可能把运算子转为字符串，其他运算符都会把运算子自动转成数值。</p>
+<p>一元运算符也会把运算子转成数值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">+&apos;abc&apos; // NaN</div><div class="line">-&apos;abc&apos; // NaN</div><div class="line">+true // 1</div><div class="line">-false // 0</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -329,14 +375,16 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
-            
-              <a href="/2014/12/13/my-new-post/" rel="next" title="my new post">
-                <i class="fa fa-chevron-left"></i> my new post
-              </a>
             
           </div>
 
@@ -344,8 +392,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/12/13/three/" rel="prev" title="three">
-                three <i class="fa fa-chevron-right"></i>
+              <a href="/2015/01/11/three/" rel="prev" title="绝对定位情况下水平垂直居中小技巧">
+                绝对定位情况下水平垂直居中小技巧 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -393,8 +441,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://oi4s462m9.bkt.clouddn.com/%E5%A4%B4%E5%83%8F.png"
@@ -415,7 +472,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -460,6 +517,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、数据类型"><span class="nav-number">1.</span> <span class="nav-text">一、数据类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、数据类型检测"><span class="nav-number">2.</span> <span class="nav-text">二、数据类型检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、typeof"><span class="nav-number">2.0.1.</span> <span class="nav-text">1、typeof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、instanceof-constructor"><span class="nav-number">2.0.2.</span> <span class="nav-text">2、instanceof/constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、Object-prototype-toString-call-value"><span class="nav-number">2.0.3.</span> <span class="nav-text">3、Object.prototype.toString.call(value)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、数据类型转换"><span class="nav-number">3.</span> <span class="nav-text">三、数据类型转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、强制类型转换"><span class="nav-number">3.0.1.</span> <span class="nav-text">1、强制类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、自动类型转换"><span class="nav-number">3.0.2.</span> <span class="nav-text">2、自动类型转换</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>

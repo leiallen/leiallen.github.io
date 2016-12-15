@@ -1,0 +1,683 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="HTML5,本地存储," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一、H5之前客户端本地存储的实现1、 cookiescookies的应用比较广泛，但有以下几个问题：
+（1）每次http请求头上会带着，浪费资源（2）每个域名客户端只能存储4K大小（3）会造成主Domain污染（4）cookies明文传输很不安全2、UserData（只有IE支持）3、其他非主流方案二、H5相关的存储知识1、本地存储WebStorage (localstorage &amp;amp; se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="彻底搞懂Html5本地存储技术（一）">
+<meta property="og:url" content="http://yoursite.com/2015/01/25/my-new-post/index.html">
+<meta property="og:site_name" content="Allenlei's Blog">
+<meta property="og:description" content="一、H5之前客户端本地存储的实现1、 cookiescookies的应用比较广泛，但有以下几个问题：
+（1）每次http请求头上会带着，浪费资源（2）每个域名客户端只能存储4K大小（3）会造成主Domain污染（4）cookies明文传输很不安全2、UserData（只有IE支持）3、其他非主流方案二、H5相关的存储知识1、本地存储WebStorage (localstorage &amp;amp; se">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/909952/201612/909952-20161204233450037-165954539.png">
+<meta property="og:updated_time" content="2016-12-15T05:24:06.745Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="彻底搞懂Html5本地存储技术（一）">
+<meta name="twitter:description" content="一、H5之前客户端本地存储的实现1、 cookiescookies的应用比较广泛，但有以下几个问题：
+（1）每次http请求头上会带着，浪费资源（2）每个域名客户端只能存储4K大小（3）会造成主Domain污染（4）cookies明文传输很不安全2、UserData（只有IE支持）3、其他非主流方案二、H5相关的存储知识1、本地存储WebStorage (localstorage &amp;amp; se">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/909952/201612/909952-20161204233450037-165954539.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2015/01/25/my-new-post/"/>
+
+
+
+
+
+  <title> 彻底搞懂Html5本地存储技术（一） | Allenlei's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Allenlei's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/01/25/my-new-post/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Allenlei">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://oi4s462m9.bkt.clouddn.com/%E5%A4%B4%E5%83%8F.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Allenlei's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Allenlei's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                彻底搞懂Html5本地存储技术（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-01-25T00:36:59+08:00">
+                2015-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="一、H5之前客户端本地存储的实现"><a href="#一、H5之前客户端本地存储的实现" class="headerlink" title="一、H5之前客户端本地存储的实现"></a>一、H5之前客户端本地存储的实现</h1><h2 id="1、-cookies"><a href="#1、-cookies" class="headerlink" title="1、 cookies"></a>1、 cookies</h2><p>cookies的应用比较广泛，但有以下几个问题：</p>
+<h3 id="（1）每次http请求头上会带着，浪费资源"><a href="#（1）每次http请求头上会带着，浪费资源" class="headerlink" title="（1）每次http请求头上会带着，浪费资源"></a>（1）每次http请求头上会带着，浪费资源</h3><h3 id="（2）每个域名客户端只能存储4K大小"><a href="#（2）每个域名客户端只能存储4K大小" class="headerlink" title="（2）每个域名客户端只能存储4K大小"></a>（2）每个域名客户端只能存储4K大小</h3><h3 id="（3）会造成主Domain污染"><a href="#（3）会造成主Domain污染" class="headerlink" title="（3）会造成主Domain污染"></a>（3）会造成主Domain污染</h3><h3 id="（4）cookies明文传输很不安全"><a href="#（4）cookies明文传输很不安全" class="headerlink" title="（4）cookies明文传输很不安全"></a>（4）cookies明文传输很不安全</h3><h2 id="2、UserData（只有IE支持）"><a href="#2、UserData（只有IE支持）" class="headerlink" title="2、UserData（只有IE支持）"></a>2、UserData（只有IE支持）</h2><h2 id="3、其他非主流方案"><a href="#3、其他非主流方案" class="headerlink" title="3、其他非主流方案"></a>3、其他非主流方案</h2><h1 id="二、H5相关的存储知识"><a href="#二、H5相关的存储知识" class="headerlink" title="二、H5相关的存储知识"></a>二、H5相关的存储知识</h1><h2 id="1、本地存储WebStorage-localstorage-amp-sessionstorage"><a href="#1、本地存储WebStorage-localstorage-amp-sessionstorage" class="headerlink" title="1、本地存储WebStorage (localstorage &amp; sessionstorage)"></a>1、本地存储WebStorage (localstorage &amp; sessionstorage)</h2><p><em>浏览器支持情况</em><br><img src="http://images2015.cnblogs.com/blog/909952/201612/909952-20161204233450037-165954539.png" alt="浏览器支持情况"></p>
+<h3 id="（1）生命周期"><a href="#（1）生命周期" class="headerlink" title="（1）生命周期"></a>（1）生命周期</h3><p> localstorage永久存储除非显示移除或清空，sessionstorage在页面会话期有效关闭页面会被清除（刷新页面不会清除）；</p>
+<h3 id="（2）API（ls和ss相同）"><a href="#（2）API（ls和ss相同）" class="headerlink" title="（2）API（ls和ss相同）"></a>（2）API（ls和ss相同）</h3><ul>
+<li>length //storage内键值对数量 只读</li>
+<li>setItem //添加键值对 key value</li>
+<li>getItem //根据key获取键值对</li>
+<li>key  //键名 可以根据index属性获取键名</li>
+<li>removeItem //根据key移除键值对</li>
+<li><p>clear //清空</p>
+<h3 id="（3）存储类型及大小"><a href="#（3）存储类型及大小" class="headerlink" title="（3）存储类型及大小"></a>（3）存储类型及大小</h3></li>
+<li><p>webStorage之存储字符串（只要能被序列化为字符串都可以）</p>
+</li>
+<li><p>每个域名下5M</p>
+<h3 id="（4）storage事件"><a href="#（4）storage事件" class="headerlink" title="（4）storage事件"></a>（4）storage事件</h3></li>
+<li><p>webStorage发生改变时触发storage事件</p>
+</li>
+<li><p>key:键名</p>
+</li>
+<li>oldValue：修改之前的value</li>
+<li>newValue：修改之后的value</li>
+<li>url：触发改动的页面url</li>
+<li><p>StorageArea：发生改变的Storage</p>
+<h3 id="（5）使用注意事项"><a href="#（5）使用注意事项" class="headerlink" title="（5）使用注意事项"></a>（5）使用注意事项</h3></li>
+<li><p>不同浏览器数据存储是相互独立的，chrome的localStorage在ff上访问不了</p>
+</li>
+<li>使用时要检测浏览器是否支持（不要使用window.localStorage检测对象是否存在，应该set一条数据然后进行异常捕获）</li>
+<li>由于ls是永久存储，要做好更新策略，控制过期</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">set</span>(<span class="params">key,vel</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> curTime = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime();</div><div class="line">    localStorage.setItem( key , <span class="built_in">JSON</span>.stringify(&#123;<span class="attr">data</span>:vel , <span class="attr">time</span>:curTime &#125;) );</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">key,exp</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> data = locaStorage.getItem(key);</div><div class="line">    <span class="keyword">var</span> dataObj = <span class="built_in">JSON</span>.parse(data);</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">new</span> <span class="built_in">Date</span>().getTime()-dataObj.time&lt;exp)&#123;</div><div class="line">        <span class="keyword">return</span> dataObj.data;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        alert(<span class="string">'已过期！'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>子域名之间是不能共享数据的-使用跨域方法传输数据</li>
+</ul>
+<p><strong>特别注意：</strong></p>
+<p>webstorage虽好但是并不是用来完全替代cookies，它应该用在原本不应该用cookies但是不得已用了cookies的情况下。<br>有WebStorage后cookie应只做它应该做的事情——作为客户端与服务器交互的通道，保持客户端状态。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTML5/" rel="tag"># HTML5</a>
+          
+            <a href="/tags/本地存储/" rel="tag"># 本地存储</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/01/11/three/" rel="next" title="绝对定位情况下水平垂直居中小技巧">
+                <i class="fa fa-chevron-left"></i> 绝对定位情况下水平垂直居中小技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/02/18/150218/" rel="prev" title="JS中检测数据类型的几种方式及优缺点">
+                JS中检测数据类型的几种方式及优缺点 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://oi4s462m9.bkt.clouddn.com/%E5%A4%B4%E5%83%8F.png"
+               alt="Allenlei" />
+          <p class="site-author-name" itemprop="name">Allenlei</p>
+          <p class="site-description motion-element" itemprop="description">hello</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/your-user-name" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/your-user-name" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、H5之前客户端本地存储的实现"><span class="nav-number">1.</span> <span class="nav-text">一、H5之前客户端本地存储的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、-cookies"><span class="nav-number">1.1.</span> <span class="nav-text">1、 cookies</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）每次http请求头上会带着，浪费资源"><span class="nav-number">1.1.1.</span> <span class="nav-text">（1）每次http请求头上会带着，浪费资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）每个域名客户端只能存储4K大小"><span class="nav-number">1.1.2.</span> <span class="nav-text">（2）每个域名客户端只能存储4K大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）会造成主Domain污染"><span class="nav-number">1.1.3.</span> <span class="nav-text">（3）会造成主Domain污染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（4）cookies明文传输很不安全"><span class="nav-number">1.1.4.</span> <span class="nav-text">（4）cookies明文传输很不安全</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、UserData（只有IE支持）"><span class="nav-number">1.2.</span> <span class="nav-text">2、UserData（只有IE支持）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、其他非主流方案"><span class="nav-number">1.3.</span> <span class="nav-text">3、其他非主流方案</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、H5相关的存储知识"><span class="nav-number">2.</span> <span class="nav-text">二、H5相关的存储知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、本地存储WebStorage-localstorage-amp-sessionstorage"><span class="nav-number">2.1.</span> <span class="nav-text">1、本地存储WebStorage (localstorage & sessionstorage)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）生命周期"><span class="nav-number">2.1.1.</span> <span class="nav-text">（1）生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）API（ls和ss相同）"><span class="nav-number">2.1.2.</span> <span class="nav-text">（2）API（ls和ss相同）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）存储类型及大小"><span class="nav-number">2.1.3.</span> <span class="nav-text">（3）存储类型及大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（4）storage事件"><span class="nav-number">2.1.4.</span> <span class="nav-text">（4）storage事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（5）使用注意事项"><span class="nav-number">2.1.5.</span> <span class="nav-text">（5）使用注意事项</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allenlei</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
