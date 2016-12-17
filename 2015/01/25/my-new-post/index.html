@@ -84,20 +84,17 @@
 
 
 
-<meta name="description" content="一、H5之前客户端本地存储的实现1、 cookiescookies的应用比较广泛，但有以下几个问题：
-（1）每次http请求头上会带着，浪费资源（2）每个域名客户端只能存储4K大小（3）会造成主Domain污染（4）cookies明文传输很不安全2、UserData（只有IE支持）3、其他非主流方案二、H5相关的存储知识1、本地存储WebStorage (localstorage &amp;amp; se">
+<meta name="description" content="一、H5之前客户端本地存储的实现1、 cookiescookies的应用比较广泛，但有以下几个问题：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="彻底搞懂Html5本地存储技术（一）">
 <meta property="og:url" content="http://yoursite.com/2015/01/25/my-new-post/index.html">
 <meta property="og:site_name" content="Allenlei's Blog">
-<meta property="og:description" content="一、H5之前客户端本地存储的实现1、 cookiescookies的应用比较广泛，但有以下几个问题：
-（1）每次http请求头上会带着，浪费资源（2）每个域名客户端只能存储4K大小（3）会造成主Domain污染（4）cookies明文传输很不安全2、UserData（只有IE支持）3、其他非主流方案二、H5相关的存储知识1、本地存储WebStorage (localstorage &amp;amp; se">
+<meta property="og:description" content="一、H5之前客户端本地存储的实现1、 cookiescookies的应用比较广泛，但有以下几个问题：">
 <meta property="og:image" content="http://images2015.cnblogs.com/blog/909952/201612/909952-20161204233450037-165954539.png">
-<meta property="og:updated_time" content="2016-12-15T05:24:06.745Z">
+<meta property="og:updated_time" content="2016-12-17T09:27:23.954Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="彻底搞懂Html5本地存储技术（一）">
-<meta name="twitter:description" content="一、H5之前客户端本地存储的实现1、 cookiescookies的应用比较广泛，但有以下几个问题：
-（1）每次http请求头上会带着，浪费资源（2）每个域名客户端只能存储4K大小（3）会造成主Domain污染（4）cookies明文传输很不安全2、UserData（只有IE支持）3、其他非主流方案二、H5相关的存储知识1、本地存储WebStorage (localstorage &amp;amp; se">
+<meta name="twitter:description" content="一、H5之前客户端本地存储的实现1、 cookiescookies的应用比较广泛，但有以下几个问题：">
 <meta name="twitter:image" content="http://images2015.cnblogs.com/blog/909952/201612/909952-20161204233450037-165954539.png">
 
 
@@ -317,6 +314,7 @@
 
       
         <h1 id="一、H5之前客户端本地存储的实现"><a href="#一、H5之前客户端本地存储的实现" class="headerlink" title="一、H5之前客户端本地存储的实现"></a>一、H5之前客户端本地存储的实现</h1><h2 id="1、-cookies"><a href="#1、-cookies" class="headerlink" title="1、 cookies"></a>1、 cookies</h2><p>cookies的应用比较广泛，但有以下几个问题：</p>
+<a id="more"></a>
 <h3 id="（1）每次http请求头上会带着，浪费资源"><a href="#（1）每次http请求头上会带着，浪费资源" class="headerlink" title="（1）每次http请求头上会带着，浪费资源"></a>（1）每次http请求头上会带着，浪费资源</h3><h3 id="（2）每个域名客户端只能存储4K大小"><a href="#（2）每个域名客户端只能存储4K大小" class="headerlink" title="（2）每个域名客户端只能存储4K大小"></a>（2）每个域名客户端只能存储4K大小</h3><h3 id="（3）会造成主Domain污染"><a href="#（3）会造成主Domain污染" class="headerlink" title="（3）会造成主Domain污染"></a>（3）会造成主Domain污染</h3><h3 id="（4）cookies明文传输很不安全"><a href="#（4）cookies明文传输很不安全" class="headerlink" title="（4）cookies明文传输很不安全"></a>（4）cookies明文传输很不安全</h3><h2 id="2、UserData（只有IE支持）"><a href="#2、UserData（只有IE支持）" class="headerlink" title="2、UserData（只有IE支持）"></a>2、UserData（只有IE支持）</h2><h2 id="3、其他非主流方案"><a href="#3、其他非主流方案" class="headerlink" title="3、其他非主流方案"></a>3、其他非主流方案</h2><h1 id="二、H5相关的存储知识"><a href="#二、H5相关的存储知识" class="headerlink" title="二、H5相关的存储知识"></a>二、H5相关的存储知识</h1><h2 id="1、本地存储WebStorage-localstorage-amp-sessionstorage"><a href="#1、本地存储WebStorage-localstorage-amp-sessionstorage" class="headerlink" title="1、本地存储WebStorage (localstorage &amp; sessionstorage)"></a>1、本地存储WebStorage (localstorage &amp; sessionstorage)</h2><p><em>浏览器支持情况</em><br><img src="http://images2015.cnblogs.com/blog/909952/201612/909952-20161204233450037-165954539.png" alt="浏览器支持情况"></p>
 <h3 id="（1）生命周期"><a href="#（1）生命周期" class="headerlink" title="（1）生命周期"></a>（1）生命周期</h3><p> localstorage永久存储除非显示移除或清空，sessionstorage在页面会话期有效关闭页面会被清除（刷新页面不会清除）；</p>
 <h3 id="（2）API（ls和ss相同）"><a href="#（2）API（ls和ss相同）" class="headerlink" title="（2）API（ls和ss相同）"></a>（2）API（ls和ss相同）</h3><ul>
@@ -465,7 +463,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -475,7 +473,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -84,28 +84,16 @@
 
 
 
-<meta name="description" content="之前的博文梳理了Javascript数据类型转换规则 今天来整理一下js数据类型检测的几个方法
-1、typeof 用来检测数据类型的运算符typeof value 返回值首先是一个字符串,其次里面包含了对应的数据类型,例如:”number”、”string”、”boolean”、”undefined”、”object”、”function”
-局限性:
-
-1)typeof null -&amp;gt;”ob">
+<meta name="description" content="之前的博文梳理了Javascript数据类型转换规则 今天来整理一下js数据类型检测的几个方法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS中检测数据类型的几种方式及优缺点">
 <meta property="og:url" content="http://yoursite.com/2015/02/18/150218/index.html">
 <meta property="og:site_name" content="Allenlei's Blog">
-<meta property="og:description" content="之前的博文梳理了Javascript数据类型转换规则 今天来整理一下js数据类型检测的几个方法
-1、typeof 用来检测数据类型的运算符typeof value 返回值首先是一个字符串,其次里面包含了对应的数据类型,例如:”number”、”string”、”boolean”、”undefined”、”object”、”function”
-局限性:
-
-1)typeof null -&amp;gt;”ob">
-<meta property="og:updated_time" content="2016-12-15T05:20:51.596Z">
+<meta property="og:description" content="之前的博文梳理了Javascript数据类型转换规则 今天来整理一下js数据类型检测的几个方法">
+<meta property="og:updated_time" content="2016-12-17T09:28:22.096Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS中检测数据类型的几种方式及优缺点">
-<meta name="twitter:description" content="之前的博文梳理了Javascript数据类型转换规则 今天来整理一下js数据类型检测的几个方法
-1、typeof 用来检测数据类型的运算符typeof value 返回值首先是一个字符串,其次里面包含了对应的数据类型,例如:”number”、”string”、”boolean”、”undefined”、”object”、”function”
-局限性:
-
-1)typeof null -&amp;gt;”ob">
+<meta name="twitter:description" content="之前的博文梳理了Javascript数据类型转换规则 今天来整理一下js数据类型检测的几个方法">
 
 
 
@@ -324,14 +312,15 @@
 
       
         <p>之前的博文梳理了<a href="/2014/12/13/second/">Javascript数据类型转换规则</a> 今天来整理一下js数据类型检测的几个方法</p>
-<h1 id="1、typeof-用来检测数据类型的运算符"><a href="#1、typeof-用来检测数据类型的运算符" class="headerlink" title="1、typeof 用来检测数据类型的运算符"></a>1、typeof 用来检测数据类型的运算符</h1><p>typeof value 返回值首先是一个字符串,其次里面包含了对应的数据类型,例如:”number”、”string”、”boolean”、”undefined”、”object”、”function”</p>
+<a id="more"></a>
+<h2 id="typeof-用来检测数据类型的运算符"><a href="#typeof-用来检测数据类型的运算符" class="headerlink" title="typeof 用来检测数据类型的运算符"></a>typeof 用来检测数据类型的运算符</h2><p>typeof value 返回值首先是一个字符串,其次里面包含了对应的数据类型,例如:”number”、”string”、”boolean”、”undefined”、”object”、”function”</p>
 <p>局限性:</p>
 <ul>
 <li>1)typeof null -&gt;”object”</li>
 <li>2)检测的不管是数组还是正则都返回的是”object”,所以typeof不能判断一个值是否为数组</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log(typeof [12, 23]);//-&gt;&quot;Object&quot;</div></pre></td></tr></table></figure>
-<h1 id="2、instanceof-constructor"><a href="#2、instanceof-constructor" class="headerlink" title="2、instanceof/constructor"></a>2、instanceof/constructor</h1><p>检测某一个实例是否属于某一个类<br>使用instanceof/constructor可以检测数组和正则</p>
+<h2 id="instanceof-constructor"><a href="#instanceof-constructor" class="headerlink" title="instanceof/constructor"></a>instanceof/constructor</h2><p>检测某一个实例是否属于某一个类<br>使用instanceof/constructor可以检测数组和正则</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">console.log([] instanceof Array);//-&gt;true</div><div class="line">console.log(/^$/ instanceof RegExp);//-&gt;true</div><div class="line">console.log([] instanceof Object);//-&gt;true</div><div class="line">console.log([].constructor === Array);//-&gt;true</div><div class="line">console.log([].constructor === Object);//-&gt;false</div></pre></td></tr></table></figure>
 <p>constructor可以避免instanceof检测数组的时候,用Object也是true的问题</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">console.log(&#123;&#125;.constructor === Object);//true &lt;br&gt;</div><div class="line">console.log([].constructor === Object);//false</div></pre></td></tr></table></figure>
@@ -354,7 +343,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function Fn() &#123;&#125;</div><div class="line">var f = new Fn;</div><div class="line">console.log(f instanceof Array);//-&gt;false f不是一个数组,它就是一个普通的实例(普通的对象)</div></pre></td></tr></table></figure>
 <p>虽然Fn继承了Array,但是f没有length和数字索引哪些东西,所以f应该不是数组才对,但是用instanceof检测的结果却是true,因为f虽然不是数组,但是在f的原型链上可以找到Array</p>
 <p>function Fn() {<br>}<br>Fn.prototype = new Array;//Fn子类继承了Array这个父类中的属性和方法<br>var f = new Fn;<br>console.log(f instanceof Array);//true</p>
-<h1 id="3、Object-prototype-toString-call-value"><a href="#3、Object-prototype-toString-call-value" class="headerlink" title="3、Object.prototype.toString.call(value)"></a>3、Object.prototype.toString.call(value)</h1><p>找到Object原型上的toString方法,让方法执行,并且让方法中的this变为value(value-&gt;就是我们要检测数据类型的值)</p>
+<h2 id="Object-prototype-toString-call-value"><a href="#Object-prototype-toString-call-value" class="headerlink" title="Object.prototype.toString.call(value)"></a>Object.prototype.toString.call(value)</h2><p>找到Object原型上的toString方法,让方法执行,并且让方法中的this变为value(value-&gt;就是我们要检测数据类型的值)</p>
 <p>Object.prototype.toString常用来判断对象值属于哪种内置属性，它返回一个JSON字符串——“[object 数据类型]”。</p>
 <p>由于许多引用类型都重写了Object继承来的的toStrong方法，所以我们通常使用call或者apply借用Object.prototype.toString函数来判断数据类型。</p>
 <p>当然，这样调用的默认前提是Object.prototype.toString没有被重写。</p>
@@ -362,7 +351,7 @@
 <p>null和undefined比较的特殊:他们所属类Null/Undefined的原型上也有toString,只不过不让我们用而已,不仅如此其实类的原型都给屏蔽了</p>
 <p>HTML元素对象的toString:虽然它的原型链很长,但是在其它类的原型上都没有toString,只有在最底层Object.prototype这上才有</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">var oDiv = document.getElementById(&quot;div1&quot;);</div><div class="line">oDiv.toString(); //-&gt;调用的其实也是Object.prototype.toString...</div><div class="line"> </div><div class="line">//alert、document.write 这两种输出的方式其实都是把要输出的内容先转换为字符串,然后再输出的&lt;br&gt;</div><div class="line">alert([]); //-&gt;&quot;&quot;</div><div class="line">alert(true); //-&gt;&quot;true&quot;</div><div class="line">alert(&#123;&#125;); //-&gt;这个就要调用Object.prototype上的toString了 -&gt;&quot;[object Object]&quot;</div><div class="line"></div><div class="line">//定义toString变量是为了简便书写，同时降低作用域链检索的性能损耗</div><div class="line"></div><div class="line">var toString = Object.prototype.toString;</div><div class="line">console.log(toString.call(1));//[object Number]</div><div class="line">console.log(toString.call(undefined));//[object Undefined]</div><div class="line">console.log(toString.call(null));//[object Null]</div><div class="line">console.log(toString.call(false));//[object Boolean]</div><div class="line">console.log(toString.call(&quot;s&quot;));//[object String]</div><div class="line">console.log(toString.call(&#123;&#125;));//[object Object]</div><div class="line">console.log(toString.call(/[a]/g));//[object RegExp]</div><div class="line">console.log(toString.call(function()&#123;&#125;));//[object Function]</div></pre></td></tr></table></figure>
-<p>is系列函数的简易实现</p>
+<p><strong>is系列函数的简易实现</strong></p>
 <p>在明白数据类型怎么检测后，下面我们来简单实现is系列检测函数。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">var dataType = &#123;</div><div class="line">        &apos;[object Null]&apos; : &apos;null&apos;,</div><div class="line">        &apos;[object Undefined]&apos; : &apos;undefiend&apos;,</div><div class="line">        &apos;[object Boolean]&apos; : &apos;boolean&apos;,</div><div class="line">        &apos;[object Number]&apos; : &apos;number&apos;,</div><div class="line">        &apos;[object String]&apos; : &apos;string&apos;,</div><div class="line">        &apos;[object Function]&apos; : &apos;function&apos;,</div><div class="line">        &apos;[object Array]&apos; : &apos;array&apos;,</div><div class="line">        &apos;[object Date]&apos; : &apos;date&apos;,</div><div class="line">        &apos;[object RegExp]&apos; : &apos;regexp&apos;,</div><div class="line">        &apos;[object Object]&apos; : &apos;object&apos;,</div><div class="line">        &apos;[object Error]&apos; : &apos;error&apos;</div><div class="line">    &#125;,</div><div class="line">    toString = Object.prototype.toString;</div><div class="line"></div><div class="line">function type(obj) &#123;</div><div class="line">    return dataType[toString.call(obj)];</div><div class="line">&#125;</div><div class="line"></div><div class="line">//生成is系列函数</div><div class="line">function createValidType() &#123;</div><div class="line">    for(var p in dataType) &#123;</div><div class="line">        var objType = p.slice(8, -1);</div><div class="line">        (function(objType) &#123;</div><div class="line">            window[&apos;is&apos; + objType] = function(obj) &#123;</div><div class="line">                return type(obj) === objType.toLowerCase();</div><div class="line">            &#125;</div><div class="line">        &#125;)(objType)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">createValidType();</div><div class="line"></div><div class="line">console.log(isObject(&#123;&#125;));//true</div><div class="line">console.log(isDate(new Date()));//true</div><div class="line">console.log(isBoolean(false));//true</div><div class="line">console.log(isString(1));//false</div><div class="line">console.log(isError(1));//false</div><div class="line">console.log(isError(new Error()));//true</div><div class="line">console.log(isArray([]));//true</div><div class="line">console.log(isArray(1));//false</div></pre></td></tr></table></figure>
 <p>上面代码里分别实现了isNull、isUndefined、isBoolean、isNumber、isString、isFunction、isArray、isDate、isRegExp、isObject、isError这11个检测函数。同时也实现了type函数，用以检测数据类型。</p>
@@ -480,7 +469,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -490,7 +479,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -545,7 +534,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、typeof-用来检测数据类型的运算符"><span class="nav-number">1.</span> <span class="nav-text">1、typeof 用来检测数据类型的运算符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、instanceof-constructor"><span class="nav-number">2.</span> <span class="nav-text">2、instanceof/constructor</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、Object-prototype-toString-call-value"><span class="nav-number">3.</span> <span class="nav-text">3、Object.prototype.toString.call(value)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#typeof-用来检测数据类型的运算符"><span class="nav-number">1.</span> <span class="nav-text">typeof 用来检测数据类型的运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#instanceof-constructor"><span class="nav-number">2.</span> <span class="nav-text">instanceof/constructor</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Object-prototype-toString-call-value"><span class="nav-number">3.</span> <span class="nav-text">Object.prototype.toString.call(value)</span></a></li></ol></div>
             
 
           </div>
